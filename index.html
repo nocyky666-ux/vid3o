@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vidcomp — Kompres video, atur reso/fps/bitrate sendiri</title>
+<meta name="description" content="Kompres beberapa video sekaligus langsung di browser Anda, atur sendiri resolusi, fps, dan bitrate. Tanpa upload ke server." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+
+    <header class="readout">
+      <div id="readoutSpec" class="readout-spec">
+        <span class="spec-item"><span id="specRes" class="spec-value">1080</span><span class="spec-unit">p</span></span>
+        <span class="spec-sep">·</span>
+        <span class="spec-item"><span id="specFps" class="spec-value">45</span><span class="spec-unit">fps</span></span>
+        <span class="spec-sep">·</span>
+        <span class="spec-item"><span id="specBitrate" class="spec-value">6</span><span class="spec-unit">Mbps</span></span>
+        <span class="spec-sep">·</span>
+        <span class="spec-item"><span class="spec-value">H.264</span></span>
+      </div>
+      <h1>Vidcomp</h1>
+      <p class="tagline">Kompres beberapa video sekaligus, langsung di browser Anda. Video tidak pernah diunggah ke server mana pun.</p>
+    </header>
+
+    <section class="panel">
+
+      <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Pilih atau jatuhkan file video">
+        <svg class="dropzone-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p><strong>Jatuhkan video di sini</strong> atau klik untuk memilih dari Berkas/File</p>
+        <p class="dropzone-hint">Bisa pilih beberapa file sekaligus dari penyimpanan/File Manager · MP4, MOV, MKV, WebM, dll.</p>
+        <input
+          id="fileInput"
+          type="file"
+          accept="video/*,.mp4,.mov,.m4v,.avi,.mkv,.webm,.wmv,.flv,.3gp,.ts,.mts,.m2ts,application/octet-stream"
+          multiple
+          hidden
+        />
+      </div>
+
+      <div class="controls">
+        <div class="specs-grid">
+          <label class="spec-field">
+            <span class="field-label">Resolusi</span>
+            <select id="resolution">
+              <option value="2160">2160p (4K)</option>
+              <option value="1440">1440p (2K)</option>
+              <option value="1080" selected>1080p (Full HD)</option>
+              <option value="720">720p (HD)</option>
+              <option value="480">480p</option>
+              <option value="360">360p</option>
+              <option value="original">Asli (tanpa ubah reso)</option>
+            </select>
+          </label>
+          <label class="spec-field">
+            <span class="field-label">Frame rate</span>
+            <select id="fps">
+              <option value="60">60 fps</option>
+              <option value="45" selected>45 fps</option>
+              <option value="30">30 fps</option>
+              <option value="24">24 fps</option>
+              <option value="original">Asli (tanpa ubah fps)</option>
+            </select>
+          </label>
+          <label class="spec-field">
+            <span class="field-label">Bitrate video</span>
+            <select id="bitrate">
+              <option value="12000">12 Mbps &mdash; kualitas tinggi</option>
+              <option value="6000" selected>6 Mbps &mdash; seimbang</option>
+              <option value="3000">3 Mbps &mdash; kecil</option>
+              <option value="1500">1.5 Mbps &mdash; sangat kecil</option>
+              <option value="800">0.8 Mbps &mdash; minimum</option>
+            </select>
+          </label>
+        </div>
+        <div class="control-buttons">
+          <button id="clearBtn" class="btn btn-ghost" type="button">Bersihkan</button>
+          <button id="compressBtn" class="btn btn-primary" type="button" disabled>Kompres semua</button>
+        </div>
+      </div>
+
+      <div id="fileList" class="file-list" aria-live="polite"></div>
+
+      <p id="status" class="status-line">Memuat mesin kompresi…</p>
+
+    </section>
+
+    <footer class="foot-note">
+      <p>Semua proses berjalan di perangkat Anda lewat WebAssembly (ffmpeg.wasm) &mdash; tidak butuh server, tidak ada batas ukuran upload. Resolusi, fps, dan bitrate diterapkan persis sesuai pilihan Anda di atas. File besar, resolusi/bitrate tinggi, atau fps tinggi akan makan waktu lebih lama, tergantung kecepatan perangkat Anda.</p>
+    </footer>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
